@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Unit Converter</title>
+</head>
+<body>
+    <h1>Unit Converter</h1>
+    <form id="unitConverterForm">
+        <label for="fromInput">Value:</label>
+        <input type="text" id="fromInput" name="fromInput" required>
+        
+        <label for="fromDropdown">From Unit:</label>
+        <select id="fromDropdown" name="fromDropdown">
+            <option value="cm">cm</option>
+            <option value="meters">meters</option>
+            <option value="inches">inches</option>
+            <option value="km">km</option>
+        </select>
+        
+        <label for="toDropdown">To Unit:</label>
+        <select id="toDropdown" name="toDropdown">
+            <option value="cm">cm</option>
+            <option value="meters">meters</option>
+            <option value="inches">inches</option>
+            <option value="km">km</option>
+        </select>
+        
+        <button type="button" id="submitButton" onclick="performConversion()">Convert</button>
+        
+        <div id="result"></div>
+
+        <script>
+            function performConversion() {
+                var value = parseFloat(document.getElementById("fromInput").value);
+                var fromUnit = document.getElementById("fromDropdown").value;
+                var toUnit = document.getElementById("toDropdown").value;
+
+                var result = convert(value, fromUnit, toUnit);
+
+                document.getElementById("result").innerText = value + " " + fromUnit + " = " + result + " " + toUnit;
+            }
+
+            function convert(value, fromUnit, toUnit) {
+                var conversionFactors = {
+                    "cm_to_meters": 0.01,
+                    "meters_to_cm": 100.0,
+                    "inches_to_cm": 2.54,
+                    "cm_to_inches": 0.393701,
+                    "km_to_meters": 1000.0,
+                    "meters_to_km": 0.001
+                };
+
+                var conversionKey = fromUnit + "_to_" + toUnit;
+
+                if (conversionFactors.hasOwnProperty(conversionKey)) {
+                    var conversionFactor = conversionFactors[conversionKey];
+                    return value * conversionFactor;
+                } else {
+                    console.log("Conversion not supported for the given units.");
+                    return 0.0;
+                }
+            }
+        </script>
+    </form>
+</body>
+</html>
